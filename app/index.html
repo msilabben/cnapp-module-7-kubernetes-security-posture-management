@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="no">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#feedba" />
+    <meta
+      name="description"
+      content="En liten venteside for Skatteetatens Kubernetes-demo."
+    />
+    <title>Skatteetaten – straks klar</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="confetti confetti--one" aria-hidden="true"></div>
+    <div class="confetti confetti--two" aria-hidden="true"></div>
+    <div class="confetti confetti--three" aria-hidden="true"></div>
+
+    <header class="site-header">
+      <a class="wordmark" href="#main" aria-label="Skatteetaten, gå til innhold">
+        <svg
+          class="wordmark__symbol"
+          viewBox="0 0 42 42"
+          role="img"
+          aria-label=""
+        >
+          <circle cx="21" cy="21" r="18" fill="#1362ae" />
+          <path
+            d="M13 14h16M13 21h11M13 28h16"
+            fill="none"
+            stroke="#fff"
+            stroke-linecap="round"
+            stroke-width="3"
+          />
+        </svg>
+        <span>Skatteetaten</span>
+      </a>
+      <span class="site-header__label">Kubernetes-lab</span>
+    </header>
+
+    <main id="main" class="page-shell">
+      <section class="waiting-card" aria-labelledby="page-title">
+        <div class="illustration" aria-hidden="true">
+          <div class="orbit orbit--outer">
+            <span class="orbit__dot orbit__dot--pink"></span>
+          </div>
+          <div class="orbit orbit--inner">
+            <span class="orbit__dot orbit__dot--green"></span>
+          </div>
+          <div class="document">
+            <span class="document__line document__line--long"></span>
+            <span class="document__line"></span>
+            <span class="document__line document__line--short"></span>
+            <span class="document__stamp">✓</span>
+          </div>
+        </div>
+
+        <p class="eyebrow">Et lite øyeblikk</p>
+        <h1 id="page-title">Skatteetaten</h1>
+        <div class="training-notice">
+          <span class="training-notice__icon" aria-hidden="true">i</span>
+          <p>
+            <strong>Uoffisiell opplæringsside</strong>
+            Denne siden er laget for opplæring og demonstrasjon for
+            Skatteetaten. Den er ikke en del av Skatteetatens offisielle
+            tjenester.
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <span>Trygt, enkelt og litt mer skybasert.</span>
+      <span aria-hidden="true">☁</span>
+    </footer>
+  </body>
+</html>

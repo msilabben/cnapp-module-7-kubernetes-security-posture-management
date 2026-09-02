@@ -1,0 +1,10 @@
+.git
+.gitignore
+.terraform
+terraform
+*.tf
+*.tfstate*
+*.tfplan
+terraform.tfvars
+README.md
+.DS_Store

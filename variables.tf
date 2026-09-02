@@ -39,5 +39,6 @@ variable "tags" {
   default = {
     environment = "lab"
     managed-by  = "terraform"
+    owner       = "oivind@mnemonic.no"
   }
 }

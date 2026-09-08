@@ -11,7 +11,9 @@
 6. View current nodes with `kubectl get nodes`
 
 
-### Deploy a pod 
+### Raw Pod
+
+**Deploy a pod** 
 1. Create file "nginx-pod.yaml", with `vim nginx-pod.yaml`. 
 2. Paste the following into the file, and update with your own name: 
 ```
@@ -29,10 +31,30 @@ spec:
     ports:
     - containerPort: 80
 ```
-3. View the pod name with the command: `kubectl get pod nginx-<name> -o jsonpath='{.metadata.name}'`
-4. View the pod IP with the command: `kubectl get pod nginx-<name> -o jsonpath='{.status.podIP}'`
-5. View the pod node with the command: `kubectl get pod nginx-<name> -o jsonpath='{.spec.nodeName}'`
-6. View the pod container image with the command: `kubectl get pod nginx-<name> -o jsonpath='{.spec.containers[0].image}'`
-7. View the pod labels with the command `kubectl get pod nginx-<name> --show-labels`
-8. View the pod's current phase with the command `kubectl get pod nginx-<name> -o jsonpath='{.status.phase}'`
-9. To see all information at once, you can use the command `kubectl describe pod nginx-<name>`.
+
+**Find**
+1. View the pod name with the command: `kubectl get pod nginx-<name> -o jsonpath='{.metadata.name}'`
+2. View the pod IP with the command: `kubectl get pod nginx-<name> -o jsonpath='{.status.podIP}'`
+3. View the pod node with the command: `kubectl get pod nginx-<name> -o jsonpath='{.spec.nodeName}'`
+4. View the pod container image with the command: `kubectl get pod nginx-<name> -o jsonpath='{.spec.containers[0].image}'`
+5. View the pod labels with the command `kubectl get pod nginx-<name> --show-labels`
+6. View the pod's current phase with the command `kubectl get pod nginx-<name> -o jsonpath='{.status.phase}'`
+7. To see all information at once, you can use the command `kubectl describe pod nginx-<name>`.
+
+**Read the logs**
+1. View the pods logs with the command `kubectl logs -f nginx-<name>`
+
+**Open shell inside the container**
+1. To open a shell inside the container use the command `kubectl exec -it nginx-<name> -- /bin/bash`
+
+**Delete a pod**
+1. Check to see which pods are currently running with the command `kubectl get pods`
+2. Delete your pod with the command `kubectl delete pod nginx-<name>`
+3. Use the same command as step 1 to see that the pod is deleted. 
+
+
+### Deployment
+
+
+
+

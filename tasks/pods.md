@@ -14,7 +14,7 @@
 ### Deploy a pod 
 1. Create file "nginx-pod.yaml", with `vim nginx-pod.yaml`. 
 2. Paste the following into the file, and update with your own name: 
-'''
+```
 apiVersion: v1
 kind: Pod
 metadata:
@@ -28,9 +28,11 @@ spec:
     image: nginx:latest
     ports:
     - containerPort: 80
-''' 
+```
 3. View the pod name with the command: `kubectl get pod nginx-<name> -o jsonpath='{.metadata.name}'`
 4. View the pod IP with the command: `kubectl get pod nginx-<name> -o jsonpath='{.status.podIP}'`
 5. View the pod node with the command: `kubectl get pod nginx-<name> -o jsonpath='{.spec.nodeName}'`
 6. View the pod container image with the command: `kubectl get pod nginx-<name> -o jsonpath='{.spec.containers[0].image}'`
-View information about you pod with the commamd `kubectl describe pod nginx-<name>`.
+7. View the pod labels with the command `kubectl get pod nginx-<name> --show-labels`
+8. View the pod's current phase with the command `kubectl get pod nginx-<name> -o jsonpath='{.status.phase}'`
+9. To see all information at once, you can use the command `kubectl describe pod nginx-<name>`.

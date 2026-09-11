@@ -25,3 +25,7 @@ terraform.rc
 .DS_Store
 .idea/
 .vscode/
+
+# Pod-security lab: participant kubeconfigs carry live Kubernetes tokens
+out/
+*.kubeconfig

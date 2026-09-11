@@ -138,8 +138,8 @@ image reference. Commit the manifests afterwards so participants can
 ## Provision participants
 
 ```bash
-./scripts/03-participants.sh          # defaults to 12 participants
-./scripts/03-participants.sh 20       # or pass a different count
+./scripts/03-participants.sh          # defaults to 5 participants, for testing
+./scripts/03-participants.sh 20       # the real session: 20 participants
 ```
 
 Writes one `out/sNN.kubeconfig` per participant and prints each one's flag —
@@ -153,6 +153,13 @@ export KUBECONFIG=$PWD/out/sNN.kubeconfig
 
 `out/` and `*.kubeconfig` hold live Kubernetes tokens and are gitignored —
 never commit them.
+
+To reset between test runs, remove every participant namespace and the local
+kubeconfigs (the cluster, ACR and image are untouched):
+
+```bash
+./scripts/cleanup-participants.sh
+```
 
 ## Remove the lab
 

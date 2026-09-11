@@ -8,12 +8,13 @@
 # That split is why `kubectl get secrets` is Forbidden for participants, and
 # the only way to a flag is through the pod - see tasks/pod_security.md.
 #
-# Usage: ./scripts/03-participants.sh [participant-count]   (default: 12)
+# Usage: ./scripts/03-participants.sh [participant-count]   (default: 5)
+# The real session runs 20 participants: ./scripts/03-participants.sh 20
 # Safe to re-run: existing namespaces/secrets/accounts are just re-applied.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
-PARTICIPANTS="${1:-12}"
+PARTICIPANTS="${1:-5}"
 mkdir -p out
 
 SERVER=$(kubectl config view --raw --minify -o jsonpath='{.clusters[0].cluster.server}')

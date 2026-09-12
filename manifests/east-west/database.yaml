@@ -1,0 +1,44 @@
+# ============================================================================
+#  DATABASE - holds this namespace's flag, reachable over plain HTTP
+# ============================================================================
+#  Nothing protects this today. Any pod, in any namespace, on this cluster
+#  can curl it by name and read the flag. That is the whole lesson.
+#
+#  kubectl apply -f manifests/east-west/database.yaml
+# ============================================================================
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: database
+  labels:
+    app: database
+spec:
+  containers:
+    - name: database
+      image: module7akslab967a44.azurecr.io/skatteetaten-lab:1
+      imagePullPolicy: IfNotPresent
+      volumeMounts:
+        # Serves the same "flag" Secret from tasks/pod_security.md, this time
+        # over HTTP instead of a mounted file, using subPath to place it at
+        # nginx's default index.
+        - name: flag
+          mountPath: /usr/share/nginx/html/index.html
+          subPath: flag.txt
+          readOnly: true
+  volumes:
+    - name: flag
+      secret:
+        secretName: flag
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: database
+spec:
+  selector:
+    app: database
+  ports:
+    - port: 80
+      targetPort: 8080

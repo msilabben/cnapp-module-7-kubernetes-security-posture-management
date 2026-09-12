@@ -15,7 +15,7 @@ override.tf.json
 
 # Saved plans can contain sensitive data
 *.tfplan
-tfplan
+tfplan*
 
 # Local CLI configuration
 .terraformrc

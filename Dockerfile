@@ -8,7 +8,7 @@
 
 FROM ubuntu:22.04
 
-LABEL org.opencontainers.image.title="Skatteetaten training waiting page" \
+LABEL org.opencontainers.image.title="Training waiting page" \
       org.opencontainers.image.description="Unofficial training page and pod-security lab target for a Kubernetes security lab"
 
 RUN apt-get update && apt-get install -y --no-install-recommends \

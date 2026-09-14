@@ -1,0 +1,16 @@
+# Optional step. Blocks ALL outbound traffic from frontend, including its
+# DNS lookups against CoreDNS. Used to demonstrate the classic NetworkPolicy
+# footgun: denying egress breaks name resolution, not just the traffic you
+# meant to block.
+#
+# kubectl apply -f manifests/east-west/netpol-deny-all-egress-frontend.yaml
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: deny-all-egress-frontend
+spec:
+  podSelector:
+    matchLabels:
+      app: frontend
+  policyTypes:
+    - Egress

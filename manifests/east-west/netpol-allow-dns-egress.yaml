@@ -1,0 +1,27 @@
+# Adds DNS back on top of netpol-deny-all-egress-frontend.yaml. NetworkPolicy
+# rules for the same pod are additive: applying this does not replace the
+# other policy, it stacks with it. kube-system holds CoreDNS on every AKS
+# cluster, and every namespace carries the built-in label
+# kubernetes.io/metadata.name matching its own name.
+#
+# kubectl apply -f manifests/east-west/netpol-allow-dns-egress.yaml
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-dns-egress
+spec:
+  podSelector:
+    matchLabels:
+      app: frontend
+  policyTypes:
+    - Egress
+  egress:
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: kube-system
+      ports:
+        - protocol: UDP
+          port: 53
+        - protocol: TCP
+          port: 53

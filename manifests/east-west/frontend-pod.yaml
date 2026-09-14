@@ -1,0 +1,21 @@
+# ============================================================================
+#  FRONTEND - your foothold for this lab, same idea as insecure-pod.yaml
+# ============================================================================
+#  Nothing here is about container security. This lab is about the network:
+#  who can reach whom, and what actually stops them.
+#
+#  kubectl apply -f manifests/east-west/frontend-pod.yaml
+# ============================================================================
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: frontend
+  labels:
+    app: frontend
+spec:
+  containers:
+    - name: frontend
+      image: module7akslab967a44.azurecr.io/skatteetaten-lab:1
+      imagePullPolicy: IfNotPresent
+      command: ["sleep", "infinity"]

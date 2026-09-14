@@ -1,0 +1,88 @@
+# ============================================================================
+#  INSECURE POD - do not copy this into anything real
+# ============================================================================
+#  Every commented control number below maps to a step in tasks/pod_security.md.
+#  This pod violates six of the seven controls. The seventh (7, the service
+#  account token) is violated by doing nothing at all - the token is mounted
+#  by default.
+#
+#  Apply with:  kubectl apply -f manifests/insecure-pod.yaml
+# ============================================================================
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: app
+  labels:
+    app: lab-target
+    posture: insecure
+spec:
+  # The pod's own Kubernetes identity. This SA is allowed to read secrets in
+  # its namespace - the human running kubectl is NOT. See lab step 5.
+  serviceAccountName: app
+
+  # CONTROL 7 - service account token
+  # automountServiceAccountToken is not set, so it defaults to true and a live
+  # Kubernetes credential is mounted as a readable file. Doing nothing is the
+  # insecure choice here.
+
+  # CONTROL 6 - host namespaces
+  # Do not give this pod its own Linux PID namespace. Put it in the node's.
+  hostPID: true
+  hostNetwork: false
+  hostIPC: false
+
+  # Force everyone onto the same node. Required for the cross-participant
+  # attack in lab step 3 - and a fair reflection of a real shared cluster.
+  nodeSelector:
+    lab: target
+
+  # CONTROL 1 - run as non-root
+  # No pod-level securityContext at all, so runAsNonRoot is unset and nothing
+  # is verified. The image happens to specify USER 1000, which is why
+  # participants land as a normal user - but nothing here enforced that.
+
+  containers:
+    - name: app
+      image: module7akslab967a44.azurecr.io/skatteetaten-lab:1
+      imagePullPolicy: IfNotPresent
+
+      securityContext:
+        # CONTROL 4 - privileged
+        privileged: true
+
+        # CONTROL 3 - privilege escalation
+        # allowPrivilegeEscalation is unset, which defaults to true.
+        # setuid binaries therefore work. This is lab step 2.
+
+        # CONTROL 2 - capabilities
+        # Nothing dropped, so the container keeps the runtime's default set.
+
+      volumeMounts:
+        # CONTROL 5 - hostPath
+        - name: host
+          mountPath: /host
+
+        # The participant's own flag, mounted the way any app would mount a
+        # secret. Mounting it is also what puts a copy on the node's disk
+        # under /var/lib/kubelet/pods - which is the mechanism for step 3.
+        - name: flag
+          mountPath: /etc/app-secret
+          readOnly: true
+
+      resources:
+        requests:
+          cpu: 10m
+          memory: 32Mi
+        limits:
+          memory: 128Mi
+
+  volumes:
+    # CONTROL 5 - the entire node filesystem, read-write
+    - name: host
+      hostPath:
+        path: /
+
+    - name: flag
+      secret:
+        secretName: flag

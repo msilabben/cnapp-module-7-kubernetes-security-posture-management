@@ -8,3 +8,8 @@ terraform
 terraform.tfvars
 README.md
 .DS_Store
+tasks
+manifests
+scripts
+out
+*.kubeconfig

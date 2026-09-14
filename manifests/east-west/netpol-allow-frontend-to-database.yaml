@@ -1,0 +1,24 @@
+# Re-opens exactly one path: your own frontend, to your own database, on
+# port 8080. A "from.podSelector" with no namespaceSelector alongside it only
+# ever matches pods in the SAME namespace as this policy, so a neighbour's
+# frontend (same label, different namespace) does not match this rule.
+#
+# kubectl apply -f manifests/east-west/netpol-allow-frontend-to-database.yaml
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-frontend-to-database
+spec:
+  podSelector:
+    matchLabels:
+      app: database
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app: frontend
+      ports:
+        - protocol: TCP
+          port: 8080

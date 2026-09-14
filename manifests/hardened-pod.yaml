@@ -1,0 +1,84 @@
+# ============================================================================
+#  HARDENED POD
+# ============================================================================
+#  Compare against insecure-pod.yaml:
+#
+#      diff manifests/insecure-pod.yaml manifests/hardened-pod.yaml
+#
+#  What did NOT change:
+#    - the image
+#    - the service account name
+#    - the flag secret, still mounted at /etc/app-secret
+#
+#  Only the security settings moved. The app still works. That is the point.
+# ============================================================================
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: app
+  labels:
+    app: lab-target
+    posture: hardened
+spec:
+  serviceAccountName: app
+
+  # CONTROL 7 - do not mount a Kubernetes credential this workload never uses
+  automountServiceAccountToken: false
+
+  # CONTROL 6 - keep our own Linux namespaces
+  hostPID: false
+  hostNetwork: false
+  hostIPC: false
+
+  nodeSelector:
+    lab: target
+
+  # CONTROL 1 - run as a non-root user, and have the kubelet verify it
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 10001
+    runAsGroup: 10001
+    fsGroup: 10001
+
+  containers:
+    - name: app
+      image: module7akslab967a44.azurecr.io/skatteetaten-lab:1
+      imagePullPolicy: IfNotPresent
+
+      securityContext:
+        # CONTROL 4
+        privileged: false
+
+        # CONTROL 3 - kills setuid binaries at the kernel level
+        allowPrivilegeEscalation: false
+
+        # CONTROL 2 - give up all forty-odd privileged powers, add none back
+        capabilities:
+          drop: ["ALL"]
+
+      volumeMounts:
+        # CONTROL 5 - no hostPath anywhere in this file
+        - name: flag
+          mountPath: /etc/app-secret
+          readOnly: true
+
+        # Somewhere to write, created fresh by Kubernetes and deleted with
+        # the pod. This is what you use instead of pointing at the node.
+        - name: tmp
+          mountPath: /tmp
+
+      resources:
+        requests:
+          cpu: 10m
+          memory: 32Mi
+        limits:
+          memory: 128Mi
+
+  volumes:
+    - name: flag
+      secret:
+        secretName: flag
+
+    - name: tmp
+      emptyDir: {}

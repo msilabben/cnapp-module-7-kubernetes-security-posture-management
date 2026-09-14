@@ -36,16 +36,16 @@ Then open [http://localhost:8080](http://localhost:8080). Stop the server with
 Build the image from the repository root:
 
 ```bash
-docker build --tag skatteetaten-waiting-page:local .
+docker build --tag waiting-page:local .
 ```
 
 Run it locally as an unprivileged container:
 
 ```bash
 docker run --rm \
-  --name skatteetaten-waiting-page \
+  --name waiting-page \
   --publish 8080:8080 \
-  skatteetaten-waiting-page:local
+  waiting-page:local
 ```
 
 Open [http://localhost:8080](http://localhost:8080), then stop the container

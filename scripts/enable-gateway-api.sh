@@ -7,12 +7,18 @@
 # not touch NetworkPolicy, node pools, RBAC, or any existing namespace, so
 # they're safe to run without affecting pod_security.md or east_west.md.
 #
+# No Terraform dependency on purpose: this needs to run from wherever you
+# have kubectl/az access (Cloud Shell, Codespaces, ...), which usually has
+# no local Terraform state. Resource group and cluster name are fixed
+# defaults from terraform/variables.tf, override with env vars if you
+# changed them.
+#
 # Usage: ./scripts/enable-gateway-api.sh
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
-RG=$(terraform -chdir=terraform output -raw resource_group_name)
-CLUSTER=$(terraform -chdir=terraform output -raw cluster_name)
+RG="${RG:-module-7-aks-rg}"
+CLUSTER="${CLUSTER:-module-7-aks}"
 
 echo "==> Enabling the Istio service mesh add-on"
 az aks mesh enable --resource-group "$RG" --name "$CLUSTER"

@@ -37,4 +37,8 @@ EXPOSE 8080
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
   CMD curl --fail --silent http://127.0.0.1:8080/ || exit 1
 
-CMD ["nginx", "-g", "daemon off;"]
+# nginx's temp-path mkdir() is not recursive, so /tmp/nginx must exist before
+# nginx creates its subdirectories under it. Created fresh on every start,
+# since /tmp may be the image's own writable layer or a mounted emptyDir
+# (hardened-pod.yaml), and either way it needs to happen at runtime.
+CMD ["sh", "-c", "mkdir -p /tmp/nginx/client_body /tmp/nginx/proxy /tmp/nginx/fastcgi /tmp/nginx/uwsgi /tmp/nginx/scgi && exec nginx -g 'daemon off;'"]

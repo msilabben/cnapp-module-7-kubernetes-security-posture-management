@@ -44,7 +44,7 @@ spec:
 
   containers:
     - name: app
-      image: __IMAGE__
+      image: module7akslab967a44.azurecr.io/module-7-lab:1
       imagePullPolicy: Always
 
       securityContext:

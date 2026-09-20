@@ -16,7 +16,7 @@ metadata:
 spec:
   containers:
     - name: database
-      image: __IMAGE__
+      image: module7akslab967a44.azurecr.io/module-7-lab:1
       imagePullPolicy: Always
       volumeMounts:
         # Serves the same "flag" Secret from tasks/pod_security.md, this time

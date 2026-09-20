@@ -1,0 +1,16 @@
+# Rung 3: NodePort, plus "cloud, give me a real IP and point it at these
+# nodes." This is the one that costs real money and takes a minute or two
+# to provision - Azure has to create a public IP and load balancer rule.
+#
+# kubectl apply -f manifests/north-south/shop-svc-loadbalancer.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: shop
+spec:
+  type: LoadBalancer
+  selector:
+    app: shop
+  ports:
+    - port: 80
+      targetPort: 8080

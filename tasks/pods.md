@@ -3,8 +3,8 @@
 
 ## Access kubernetes 
 
-1. Log into the Azure portal with your given credentials.
-2. Click on the cloud shell button on the top right to open a shell. These tasks are written for the "bash" shell.
+1. Open a codespace in this repository. 
+2. Use the command `az login` to log into the azure environment from the terminal. Use your given credentials.
 3. List the accounts connected to the Azure tennent with the command `az account list --output table`. 
 4. Choose the one called "sandbox" with the command `az account set --subscription sandbox`.
 5. Get your aks credentials with the command `az aks get-credentials --resource-group module-7-aks-rg --name module-7-aks`. 

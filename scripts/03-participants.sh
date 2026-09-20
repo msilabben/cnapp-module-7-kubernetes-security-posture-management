@@ -20,7 +20,7 @@ mkdir -p out
 SERVER=$(kubectl config view --raw --minify -o jsonpath='{.clusters[0].cluster.server}')
 CA=$(kubectl config view --raw --minify -o jsonpath='{.clusters[0].cluster.certificate-authority-data}')
 
-for i in $(seq -w 1 "$PARTICIPANTS"); do
+for i in $(seq -f "%02g" 1 "$PARTICIPANTS"); do
   NS="s${i}"
   echo "==> $NS"
 

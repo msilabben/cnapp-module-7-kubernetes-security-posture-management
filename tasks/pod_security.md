@@ -67,7 +67,7 @@ Nothing has escaped the container. You are still in the room.
 2. `/usr/local/bin/vulnbash -p`
    - Runs the setuid binary. `-p` tells bash not to drop the elevated privileges it just inherited; without it, bash would notice something's off and lower itself back down as a safety measure.
 3. `id`
-   - Expect `uid=0(root)`. One command, no exploit needed.
+   - Expect `uid=1000(appuser) ... euid=0(root)`. The real UID stays 1000, `-p` only stops bash from dropping the effective UID it got from the setuid bit. The kernel checks the effective UID for permissions, so this shell already acts as root everywhere that matters. One command, no exploit needed.
 
 Ask yourself: has anything escaped the container yet? No, you're root, but
 still confined to the same restricted view as before. Root inside a

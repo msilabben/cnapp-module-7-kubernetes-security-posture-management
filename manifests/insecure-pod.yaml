@@ -45,7 +45,7 @@ spec:
   containers:
     - name: app
       image: module7akslab967a44.azurecr.io/skatteetaten-lab:1
-      imagePullPolicy: IfNotPresent
+      imagePullPolicy: Always
 
       securityContext:
         # CONTROL 4 - privileged

@@ -17,5 +17,5 @@ spec:
   containers:
     - name: frontend
       image: module7akslab967a44.azurecr.io/skatteetaten-lab:1
-      imagePullPolicy: IfNotPresent
+      imagePullPolicy: Always
       command: ["sleep", "infinity"]

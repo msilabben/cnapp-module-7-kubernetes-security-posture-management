@@ -107,23 +107,7 @@ mounted: `hostPath` makes step 2 irrelevant on its own. `readOnly: true` would
 not have helped either; every path above still reads fine read-only.
 
 
-## Step 4: Get a shell on the node itself
-
-*Control 6, skip if you're behind*
-
-1. `nsenter -t 1 -m -u -i -n -p -- bash`
-   - `nsenter` joins the namespaces of another process instead of creating your own. `-t 1` targets process ID 1: on the node, that's the node's own init process, not a process inside your container. The flags `-m -u -i -n -p` say which namespaces to join: mount, UTS (hostname), IPC, network and process. The result runs `bash` as if you were logged into the node directly. This only works because the pod has `hostPID: true` (so you can see process 1 on the node) and `privileged: true` (so you're allowed to join its namespaces at all).
-2. `hostname`
-   - Expect an AKS node name, not your pod's name. Confirms you're now looking at the node, not the container.
-3. `ls /var/lib/kubelet/pods`
-   - The same directory as step 3, but notice there's no `/host` prefix any more. There's no container filesystem left to prefix, you're really on the node now.
-4. `crictl ps 2>/dev/null | head`
-   - `crictl` talks to the node's container runtime directly. This lists every container running on the node, from every participant, the same view the node itself has.
-5. `exit`
-   - Leaves the node shell and drops you back into the container's own shell.
-
-
-## Step 5: The credential you didn't know you shipped
+## Step 4: The credential you didn't know you shipped
 
 *Control 7*
 
@@ -150,7 +134,7 @@ cluster entirely.
 same command, different `$TOKEN` and `$NS`.
 
 
-## Step 6: Harden it
+## Step 5: Harden it
 
 1. `exit`
    - Leaves the pod.
@@ -163,7 +147,7 @@ same command, different `$TOKEN` and `$NS`.
 5. `kubectl get pod app -w` (Ctrl-C once `Running`)
 
 
-## Step 7: Try it all again
+## Step 6: Try it all again
 
 Before each command, predict what will happen.
 
@@ -174,7 +158,6 @@ id                                                        # ?
 ps -ef                                                    # ?
 /usr/local/bin/vulnbash -p; id                            # ?
 ls /host                                                  # ?
-nsenter -t 1 -m -u -i -n -p -- bash                       # ?
 cat /var/run/secrets/kubernetes.io/serviceaccount/token   # ?
 cat /etc/app-secret/flag.txt                              # ?
 ```
@@ -187,7 +170,6 @@ cat /etc/app-secret/flag.txt                              # ?
 | `ps -ef` | 2 processes | own PID namespace, node invisible again |
 | setuid to root | still `10001` | `allowPrivilegeEscalation: false` |
 | `ls /host` | no such file | no `hostPath` in the manifest |
-| `nsenter` | permission denied | no `privileged`, no capabilities, own PID namespace |
 | read token | no such file | `automountServiceAccountToken: false` |
 | **read own flag** | **works** | nothing was broken to achieve any of the above |
 

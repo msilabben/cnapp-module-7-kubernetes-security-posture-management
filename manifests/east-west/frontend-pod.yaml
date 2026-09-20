@@ -16,6 +16,6 @@ metadata:
 spec:
   containers:
     - name: frontend
-      image: module7akslab967a44.azurecr.io/skatteetaten-lab:1
+      image: __IMAGE__
       imagePullPolicy: Always
       command: ["sleep", "infinity"]

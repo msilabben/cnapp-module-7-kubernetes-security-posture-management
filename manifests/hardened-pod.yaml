@@ -43,7 +43,7 @@ spec:
 
   containers:
     - name: app
-      image: module7akslab967a44.azurecr.io/skatteetaten-lab:1
+      image: __IMAGE__
       imagePullPolicy: Always
 
       securityContext:

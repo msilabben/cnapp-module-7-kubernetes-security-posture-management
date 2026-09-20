@@ -9,10 +9,10 @@ cd "$(dirname "$0")/.."
 
 ACR_NAME=$(terraform -chdir=terraform output -raw acr_name)
 ACR_LOGIN_SERVER=$(terraform -chdir=terraform output -raw acr_login_server)
-IMAGE="${ACR_LOGIN_SERVER}/skatteetaten-lab:1"
+IMAGE="${ACR_LOGIN_SERVER}/module-7-lab:1"
 
 echo "==> Building ${IMAGE} in ${ACR_NAME}"
-az acr build --registry "$ACR_NAME" --image skatteetaten-lab:1 .
+az acr build --registry "$ACR_NAME" --image module-7-lab:1 .
 
 for f in manifests/insecure-pod.yaml manifests/hardened-pod.yaml manifests/east-west/frontend-pod.yaml manifests/east-west/database.yaml; do
   sed -i.bak "s|__IMAGE__|${IMAGE}|g" "$f"

@@ -62,13 +62,13 @@ only works once your neighbours' databases exist too.
 ## Step 2: Pods move, the Service doesn't
 
 1. Note the database pod's current IP:
-   `kubectl get pod database -o jsonpath='{.status.podIP}'`
+   `kubectl get pod database -o jsonpath='{.status.podIP}{"\n"}'`
 2. Delete and recreate it, simulating a restart:
    `kubectl delete pod database`
    `kubectl apply -f manifests/east-west/database.yaml`
    `kubectl get pod database -w` (Ctrl-C once `Running`)
 3. Check the IP again:
-   `kubectl get pod database -o jsonpath='{.status.podIP}'`
+   `kubectl get pod database -o jsonpath='{.status.podIP}{"\n"}'`
    - Different from step 1. Every pod replacement gets a new address.
 4. From your frontend shell, call it the same way as before:
    `curl http://database`

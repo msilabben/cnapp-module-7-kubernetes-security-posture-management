@@ -20,6 +20,30 @@ mkdir -p out
 SERVER=$(kubectl config view --raw --minify -o jsonpath='{.clusters[0].cluster.server}')
 CA=$(kubectl config view --raw --minify -o jsonpath='{.clusters[0].cluster.certificate-authority-data}')
 
+# Read-only node access for tasks/north_south.md step 1 (comparing node IPs
+# to pod IPs). nodes are cluster-scoped, a namespaced Role can never grant
+# access to them, so this is one shared ClusterRole/ClusterRoleBinding
+# covering every participant's service account via the built-in
+# system:serviceaccounts group, applied once, not per participant.
+kubectl apply -f - -o name >/dev/null << YAML
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata: { name: node-reader }
+rules:
+  - apiGroups: [""]
+    resources: ["nodes"]
+    verbs: ["get", "list"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata: { name: node-reader }
+roleRef: { apiGroup: rbac.authorization.k8s.io, kind: ClusterRole, name: node-reader }
+subjects:
+  - kind: Group
+    name: system:serviceaccounts
+    apiGroup: rbac.authorization.k8s.io
+YAML
+
 for i in $(seq -f "%02g" 1 "$PARTICIPANTS"); do
   NS="s${i}"
   echo "==> $NS"

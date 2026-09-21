@@ -20,7 +20,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
   identity {
     type = "SystemAssigned"
   }
-
+  # test
   # Calico enforces NetworkPolicy (tasks/east_west.md). network_plugin and
   # network_plugin_mode match what the cluster already runs - only
   # network_policy is actually changing.

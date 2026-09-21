@@ -31,6 +31,7 @@ spec:
     ports:
     - containerPort: 80
 ```
+3. Deploy the pod with the command `kubectl apply -f nginx-pod.yaml`
 
 **Find pod information**
 1. View the pod name with the command: `kubectl get pod nginx-<name> -o jsonpath='{.metadata.name}'`

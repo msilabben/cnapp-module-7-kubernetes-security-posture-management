@@ -1,14 +1,20 @@
 #!/usr/bin/env bash
-# Build the lab image in the Terraform-managed ACR, and pin its name into the
-# pod manifests. Run once, after `terraform apply` and after `az aks
-# get-credentials` (see the root README).
+# Build the lab image in the ACR, and pin its name into the pod manifests.
+# Run after `az aks get-credentials` (see the root README). Safe to re-run
+# any time the image needs rebuilding (e.g. if the registry gets wiped).
+#
+# No Terraform dependency on purpose: this needs to run from wherever you
+# have az/kubectl access (Cloud Shell, Codespaces, ...), which usually has
+# no local Terraform state. Values are fixed defaults from
+# terraform/variables.tf and outputs.tf, override with env vars if you
+# changed them.
 #
 # Usage: ./scripts/build-image.sh
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
-ACR_NAME=$(terraform -chdir=terraform output -raw acr_name)
-ACR_LOGIN_SERVER=$(terraform -chdir=terraform output -raw acr_login_server)
+ACR_NAME="${ACR_NAME:-module7akslab967a44}"
+ACR_LOGIN_SERVER="${ACR_LOGIN_SERVER:-module7akslab967a44.azurecr.io}"
 IMAGE="${ACR_LOGIN_SERVER}/module-7-lab:1"
 
 echo "==> Building ${IMAGE} in ${ACR_NAME}"

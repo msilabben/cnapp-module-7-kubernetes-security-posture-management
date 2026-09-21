@@ -14,7 +14,8 @@ don't substitute for each other, that's the point you'll end on.
 ## Setup
 
 1. Export your kubeconfig if it isn't already:
-   `export KUBECONFIG=$PWD/out/sNN.kubeconfig`
+   `export KUBECONFIG=$PWD/sNN.kubeconfig`
+   - Same file, same namespace, as `tasks/pod_security.md`.
 2. Deploy the app this lab exposes:
    `kubectl apply -f manifests/north-south/shop-pod.yaml`
    - Same image as every other lab. `kubectl get pod shop -w` until `Running`.

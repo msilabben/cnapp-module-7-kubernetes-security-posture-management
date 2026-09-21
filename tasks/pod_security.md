@@ -22,8 +22,8 @@ namespace with `kubectl`; everything else goes through the pod.
 
 ## Setup
 
-1. Export the kubeconfig file your instructor gave you, replacing `sNN` with your actual filename (e.g. `s07`):
-   `export KUBECONFIG=$PWD/out/sNN.kubeconfig`
+1. You should have received a `sNN.kubeconfig` file by email or Teams before the session, ask your instructor if you don't have it. In your Codespace, add it via the file explorer: right-click the file tree, **Upload...**, pick your file. Then export it, replacing `sNN` with your actual filename (e.g. `s07`):
+   `export KUBECONFIG=$PWD/sNN.kubeconfig`
    - This tells `kubectl` which cluster to talk to and which identity to use. Your instructor generated one file per participant, each scoped to its own namespace.
 2. Confirm you can't read secrets:
    `kubectl get secrets`

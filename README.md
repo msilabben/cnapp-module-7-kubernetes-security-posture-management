@@ -145,15 +145,18 @@ image reference. Commit the manifests afterwards so participants can
 
 Writes one `out/sNN.kubeconfig` per participant and prints each one's flag —
 keep that output, it's your scorecard for
-[`tasks/pod_security.md`](tasks/pod_security.md). Hand each participant their
-`out/sNN.kubeconfig` file; they run:
-
-```bash
-export KUBECONFIG=$PWD/out/sNN.kubeconfig
-```
+[`tasks/pod_security.md`](tasks/pod_security.md).
 
 `out/` and `*.kubeconfig` hold live Kubernetes tokens and are gitignored —
-never commit them.
+never commit them, and never distribute them through git/GitHub. Send each
+participant **their own** `sNN.kubeconfig` file privately (email attachment,
+Slack/Teams DM), before the session rather than during. In their Codespace,
+they add it via the file explorer (right-click the file tree, **Upload...**,
+pick their file) and then run:
+
+```bash
+export KUBECONFIG=$PWD/sNN.kubeconfig
+```
 
 To reset between test runs, remove every participant namespace and the local
 kubeconfigs (the cluster, ACR and image are untouched):

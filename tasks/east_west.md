@@ -26,7 +26,7 @@ own app.
 ## Setup
 
 1. If you haven't already, export the kubeconfig your instructor gave you:
-   `export KUBECONFIG=$PWD/out/sNN.kubeconfig`
+   `export KUBECONFIG=$PWD/sNN.kubeconfig`
    - Same file, same namespace, as `tasks/pod_security.md`.
 2. Deploy your frontend:
    `kubectl apply -f manifests/east-west/frontend-pod.yaml`

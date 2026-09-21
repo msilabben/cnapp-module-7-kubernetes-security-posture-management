@@ -7,8 +7,9 @@ This repository contains:
 - Training tasks in `tasks/` — participants work through these in order:
   1. [`tasks/pods.md`](tasks/pods.md) — basic pods and deployments
   2. [`tasks/pod_security.md`](tasks/pod_security.md) — the pod-security lab (attack an insecure pod, then harden it)
-  3. [`tasks/network.md`](tasks/network.md) — networking (in progress)
-- `manifests/` and `scripts/` — the pod-security lab's manifests and the script that provisions one namespace per participant
+  3. [`tasks/east_west.md`](tasks/east_west.md) — traffic between pods, hardened with NetworkPolicy
+  4. [`tasks/north_south.md`](tasks/north_south.md) — traffic in from and out to the internet: Services, Azure Load Balancer, Gateway API
+- `manifests/` and `scripts/` — the labs' manifests, and the scripts that provision one namespace per participant, build the lab image, and enable Gateway API
 
 The Terraform configuration deploys an Azure Kubernetes Service (AKS) cluster
 with Azure defaults wherever practical:
@@ -160,6 +161,16 @@ kubeconfigs (the cluster, ACR and image are untouched):
 ```bash
 ./scripts/cleanup-participants.sh
 ```
+
+## Enable Gateway API (for tasks/north_south.md)
+
+```bash
+./scripts/enable-gateway-api.sh
+```
+
+One-time, CLI-only (the Terraform provider doesn't yet support this):
+installs the Istio add-on and the Gateway API CRDs. Purely additive, doesn't
+touch NetworkPolicy, node pools, or any existing namespace.
 
 ## Remove the lab
 

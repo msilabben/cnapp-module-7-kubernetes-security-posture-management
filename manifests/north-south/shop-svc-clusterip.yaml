@@ -1,0 +1,15 @@
+# Rung 1 of the ladder: a virtual IP, internal only. Not reachable from
+# outside the cluster, not even from your own terminal.
+#
+# kubectl apply -f manifests/north-south/shop-svc-clusterip.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: shop
+spec:
+  type: ClusterIP
+  selector:
+    app: shop
+  ports:
+    - port: 80
+      targetPort: 8080

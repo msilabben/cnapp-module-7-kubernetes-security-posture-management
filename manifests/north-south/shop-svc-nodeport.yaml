@@ -1,0 +1,18 @@
+# Rung 2: ClusterIP, plus a port opened on every node. Same Service name as
+# the ClusterIP file, applying this just changes its type in place.
+#
+# kubectl apply -f manifests/north-south/shop-svc-nodeport.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: shop
+spec:
+  type: NodePort
+  selector:
+    app: shop
+  ports:
+    - port: 80
+      targetPort: 8080
+      # No nodePort set on purpose - Kubernetes assigns a free one
+      # (30000-32767) automatically, so every participant gets a different
+      # port with no coordination needed.

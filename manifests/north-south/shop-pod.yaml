@@ -1,21 +1,20 @@
 # ============================================================================
-#  FRONTEND - your foothold for this lab, same idea as insecure-pod.yaml
+#  SHOP - the app this lab exposes, north-south instead of east-west
 # ============================================================================
-#  Nothing here is about container security. This lab is about the network:
-#  who can reach whom, and what actually stops them.
+#  Same image as every other lab. Nothing insecure here on purpose, this
+#  lab is about reachability, not container security.
 #
-#  kubectl apply -f manifests/east-west/frontend-pod.yaml
+#  kubectl apply -f manifests/north-south/shop-pod.yaml
 # ============================================================================
 
 apiVersion: v1
 kind: Pod
 metadata:
-  name: frontend
+  name: shop
   labels:
-    app: frontend
+    app: shop
 spec:
   containers:
-    - name: frontend
+    - name: shop
       image: module7akslab967a44.azurecr.io/module-7-lab:1
       imagePullPolicy: Always
-      command: ["sleep", "infinity"]

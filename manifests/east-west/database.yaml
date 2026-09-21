@@ -16,8 +16,8 @@ metadata:
 spec:
   containers:
     - name: database
-      image: module7akslab967a44.azurecr.io/skatteetaten-lab:1
-      imagePullPolicy: IfNotPresent
+      image: module7akslab967a44.azurecr.io/module-7-lab:1
+      imagePullPolicy: Always
       volumeMounts:
         # Serves the same "flag" Secret from tasks/pod_security.md, this time
         # over HTTP instead of a mounted file, using subPath to place it at

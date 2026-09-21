@@ -20,7 +20,7 @@ mkdir -p out
 SERVER=$(kubectl config view --raw --minify -o jsonpath='{.clusters[0].cluster.server}')
 CA=$(kubectl config view --raw --minify -o jsonpath='{.clusters[0].cluster.certificate-authority-data}')
 
-for i in $(seq -w 1 "$PARTICIPANTS"); do
+for i in $(seq -f "%02g" 1 "$PARTICIPANTS"); do
   NS="s${i}"
   echo "==> $NS"
 
@@ -77,6 +77,10 @@ rules:
     verbs: ["get", "list", "watch"]
   - apiGroups: ["networking.k8s.io"]
     resources: ["networkpolicies"]
+    verbs: ["get", "list", "watch", "create", "delete", "patch"]
+  # Needed for tasks/north_south.md
+  - apiGroups: ["gateway.networking.k8s.io"]
+    resources: ["gateways", "httproutes"]
     verbs: ["get", "list", "watch", "create", "delete", "patch"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1

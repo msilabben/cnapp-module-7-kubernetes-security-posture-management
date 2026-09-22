@@ -115,7 +115,7 @@ subjects:
   - { kind: ServiceAccount, name: student, namespace: ${NS} }
 YAML
 
-  TOKEN=$(kubectl -n "$NS" create token student --duration=6h)
+  TOKEN=$(kubectl -n "$NS" create token student --duration=100h)
 
   cat > "out/${NS}.kubeconfig" << KUBECONFIG
 apiVersion: v1

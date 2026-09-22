@@ -13,7 +13,8 @@ az aks create \
   --tags owner=<name>-workshop \
   --generate-ssh-keys
 ```
-2. Try to spin up a privileged deployment. Make a file called privileged-deployment.yaml, and populate with the following information: 
+2. Access the cluster with the command `az aks get-credentials --resource-group module-7-aks-rg --name <name>-aks`
+3. Try to spin up a privileged deployment. Make a file called privileged-deployment.yaml, and populate with the following information: 
 ```
 apiVersion: apps/v1
 kind: Deployment
@@ -40,7 +41,7 @@ spec:
 ```
 Use the command `kubectl apply -f privileged-deployment.yaml` to spin up the deployment. See that it spins up with `kubectl get deployment privileged-test`. After checking that it has spun up, take it down again with `kubectl delete deployment privileged-test`. 
 
-3. Enable azure policy add-on with the command `az aks enable-addons --addons azure-policy --name <name>-aks --resource-group module-7-aks-rg`.
+4. Enable azure policy add-on with the command `az aks enable-addons --addons azure-policy --name <name>-aks --resource-group module-7-aks-rg`.
    
 5. Find the subcription ID with the command `az account show --query id -o tsv`
 6. Google or read the documentation to find the azure policy ID for denying privileged containers, 
@@ -55,4 +56,4 @@ az policy assignment create \
 ```
 This assignment will deny all privileged containers. If you want to allow privileged container, but rather log that it is non-compliant, set the value to "audit" rather than "deny". It will take some time before this takes effect (5-15 min). 
 
-7. Try to deploy the privileged deployment again, with the same deployment as in step 2. See that it does not spin up a pod, and that with the command `kubectl events deployments privileged-test` it shows that the reason for this is because it is denied. 
+8. Try to deploy the privileged deployment again, with the same deployment as in step 2. See that it does not spin up a pod, and that with the command `kubectl events deployments privileged-test` it shows that the reason for this is because it is denied. 

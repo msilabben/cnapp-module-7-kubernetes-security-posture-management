@@ -36,6 +36,10 @@ namespace with `kubectl`; everything else goes through the pod.
    - `-w` watches for changes instead of exiting immediately, so you see the pod move from `Pending` to `Running`.
 5. Open `manifests/insecure-pod.yaml` in an editor and leave it open. Every comment in it is numbered to match a control below.
 
+If you get error's similar to `serviceaccount "app" not found`, try the following: 
+- Generate new token: `kubectl create token app -n sNN --duration=8h`
+- Apply token to config/context: `kubectl config set-credentials app --token=<TOKEN>`, `kubectl config set-context sNN`, `kubectl config use-context sNN`.
+
 
 ## Step 1: Recon, where am I?
 
